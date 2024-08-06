@@ -29,14 +29,14 @@ namespace M1sakalib {
         struct Callable : CallableBase {
 
             template<typename U>
-            Callable(U &&other) : callable_(std::forward<U>(other)) {}
+            Callable(U &&other) : callable_func_(std::forward<U>(other)) {}
 
             R invoke(Args...args) override {
-                return callable_(std::forward<Args>(args)...);
+                return callable_func_(std::forward<Args>(args)...);
             }
 
             std::unique_ptr<CallableBase> clone() override {
-                return std::make_unique<Callable>(callable_);
+                return std::make_unique<Callable>(callable_func_);
             }
 
             const std::type_info &target_type() const noexcept override {
@@ -47,7 +47,7 @@ namespace M1sakalib {
                 return &callable_;
             }
 
-            F callable_;
+            F callable_func_;
         };
 
 
