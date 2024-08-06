@@ -1,3 +1,5 @@
+- [function内部原理](#从零开始实现一个简易的function类型)
+
 ## 认识 function
 
 `std::function` 是C++11引入的类模板包装器，可以用来存储可调用对象
