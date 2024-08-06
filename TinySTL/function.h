@@ -44,7 +44,7 @@ namespace M1sakalib {
             }
 
             void *target() noexcept override {
-                return &callable_;
+                return &callable_func_;
             }
 
             F callable_func_;
