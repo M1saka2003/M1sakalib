@@ -1,18 +1,16 @@
-- [function内部原理](#从零开始实现一个简易的function类型)
-
-## 认识 function
+# 一. 认识 function
 
 `std::function` 是C++11引入的类模板包装器，可以用来存储可调用对象
 。使用该模板类需要导入`<functional>`头文件。
-### function的使用
+## 1.1 function的使用
 前面提到 `std::function` 可以存储可调用对象，那么什么是可调用对象呢？
 简单来说可调用对象是指可以像函数一样被调用的实体，以下给出几个例子。
 
-#### 函数指针
+## 1.2 函数指针
 ~~~cpp
 int (*func_ptr)(int,int);
 ~~~
-#### 重载了（）运算符的类
+## 1.3 重载了（）运算符的类
 ~~~cpp
 struct A {
     void operator()() {
@@ -20,7 +18,7 @@ struct A {
     }
 };
 ~~~
-#### lambda表达式
+## 1.4 lambda表达式
 ~~~cpp
 auto func = [](){
     std::cout << "lambda";
@@ -59,7 +57,7 @@ int main() {
 可以观察到，尖括号里面是写的 `void(void)`, 在模板中尖括号里面写的是 类型，这种类似 `void(void)` 的叫做函数类型，代表一个返回 `void`,参数类型
 是 `void`的函数，同理如果我有一个函数是`int func(int, int)` 那么所对应的函数类型就是`int(int, int)`。
 
-## 从零开始实现一个简易的function类型
+# 二. 从零开始实现一个简易的function类型
 
 首先对function结构体进行声明：
 ~~~cpp
@@ -146,7 +144,7 @@ R operator()(Args...args) {
 思考一个问题，既然构造函数只和 F 有关，那为什么定义 function 的时候需要用函数类型来定义呢，这个主要用于`operator()`
 可以看到，`operator（）` 部分用到了声明时的 `R` 和 `Args...`, 这是为了让调用函数的时候与自己存储的可调用对象的调用方法一致
 
-## CTAD
+# 三. CTAD
 
 在C++17 以后可以用如下写法
 ~~~cpp
