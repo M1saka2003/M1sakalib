@@ -100,6 +100,23 @@ struct make_index_sequence_impl : make_index_sequence_impl<N - 1, N - 1, index..
 然后又递归到序列里面又`{1, 2, 3}`, `N` 为 1，重复上述操作最终`N`为 0了,序列为`{0, 1, 2, 3}`,此时也就到达了终点，我们也成功得到了我们想要的序列
 ,因为我们初始是`make_index_sequence<N>{}`,所以一开始添加到序列中的元素为`N-1`所以可以理解为`N-1`继承自`{N-2, N}`, `{N-2, N-1}`又继承自`{N-3, N-2, N-1}`,一直递归到`{0, 1, 2, 3...N-1}`
 
+模板是在**编译期**生成对应的代码，假如我们使用了 `make_index_sequence` 编译器会为我们生成以下代码：
+~~~cpp
+template<>
+struct make_index_sequence_impl<0, 0, 1, 2> {
+    using type = index_sequence<0UL, 1UL, 2UL>;
+};
+
+template<>
+struct make_index_sequence_impl<1, 1, 2> : public make_index_sequence_impl<0, 0, 1, 2> {};
+
+template<>
+struct make_index_sequence_impl<2, 2> : public make_index_sequence_impl<1, 1, 2> {};
+
+template<>
+struct make_index_sequence_impl<3> : public make_index_sequence_impl<2, 2> {};
+~~~
+
 ![img.png](../../img/doc_tinystl_index_sequence1.png)
 
 可是我们有了`make_index_sequence_impl<0, 0, 1, 2...N-1>`后我们怎么拿到`index_sequence<0, 1, 2... N-1>`呢？我们可以进行一个特化
