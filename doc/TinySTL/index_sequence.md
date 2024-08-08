@@ -105,7 +105,7 @@ struct make_index_sequence_impl : make_index_sequence_impl<N - 1, N - 1, index..
 template<>
 struct make_index_sequence_impl<0, 0, 1, 2> {
     using type = index_sequence<0UL, 1UL, 2UL>;
-};
+}; // 后续会提到
 
 template<>
 struct make_index_sequence_impl<1, 1, 2> : public make_index_sequence_impl<0, 0, 1, 2> {};
